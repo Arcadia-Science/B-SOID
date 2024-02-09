@@ -14,7 +14,7 @@ parser.add_argument('--ftype', type=str, help="File type; DeepLabCut: 'h5' or 'c
 parser.add_argument('--root_path', type=str, help='Path to the working directory containing sub-directories that have input .csv,.h5, or .json files')
 parser.add_argument('--framerate', type=float, help='Framerate for pose estimate files; in frames per second')
 parser.add_argument('--value', type=float, help='Number of sub-directories that have input .csv,.h5, or .json files')
-parser.add_argument('--data_directories', type=str, help="Path of sub-directories that have input .csv,.h5, or .json files; provided as a list and relative to working_di$
+parser.add_argument('--data_directories', type=str, help="Path of sub-directories that have input .csv,.h5, or .json files; provided as a list and relative to working_dir, e.g. '/1_1,/1_2,/2_1,/2_2'")
 parser.add_argument('--min_cluster_range', type=str, default='0.5', help='Minimum cluster size, based on minimum temporal bout and will represent a %. Impacts number of clusters')
 parser.add_argument('--max_cluster_range', type=str, default='1', help='Maximum cluster size, will represent a % and impacts number of clusters')
 parser.add_argument('--autosave', type=str, default='Yes', help="Whether or not you want to autosave clustering as you go. Should be 'Yes' or 'No'")
