@@ -12,7 +12,7 @@ from streamlit import caching
 
 min_cluster_range = float(os.environ.get('min_cluster_range', 0.5))
 max_cluster_range = float(os.environ.get('max_cluster_range', 1))
-autosave = os.environ.get('autosave', '')
+autosave = os.environ.get('autosave', 'Yes')
 
 class cluster:
 
