@@ -10,8 +10,8 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_workspace import load_clusters
 from streamlit import caching
 
-min_cluster_range = float(os.environ.get('min_cluster_range', ''))
-max_cluster_range = float(os.environ.get('max_cluster_range', ''))
+min_cluster_range = float(os.environ.get('min_cluster_range', 0.5))
+max_cluster_range = float(os.environ.get('max_cluster_range', 1))
 autosave = os.environ.get('autosave', '')
 
 class cluster:
