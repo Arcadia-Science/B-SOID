@@ -23,7 +23,7 @@ parser.add_argument('--pose_list', type=str, help="List of poses to include in a
 # Parse the command line arguments
 args = parser.parse_args()
 
-#Set environment variables
+# Set environment variables
 os.environ['working_dir'] = args.working_dir
 os.environ['prefix'] = args.prefix
 os.environ['software_choice'] = args.software_choice
