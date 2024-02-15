@@ -14,7 +14,7 @@ import argparse
 # DATA_DIR_BSOID: Path of sub-directories that have input .csv,.h5, or .json files; provided as a list and relative to working_dir, e.g. '/1_1,/1_2,/2_1,/2_2'.
 # MIN_CLUSTER_BSOID: default='0.5',Minimum cluster size, based on minimum temporal bout and will represent a %. Impacts number of clusters.
 # MAX_CLUSTER_BSOID: default='1', Maximum cluster size, will represent a % and impacts number of clusters.
-# AUTOSAVE_BSOID: Whether or not you want to autosave clustering as you go. Should be 'Yes' or 'No'.
+# AUTOSAVE_BSOID: Whether or not you want to autosave clustering as you go. Should be 'Yes' or 'No'. Default is 'Yes'.
 # POSE_LIST_BSOID: List of poses to include in analysis, for example, 'R_rear,L_rear'.
 
 # Define the command to run the Streamlit app
