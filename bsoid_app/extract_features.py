@@ -16,10 +16,6 @@ from bsoid_app.bsoid_utilities.likelihoodprocessing import boxcar_center
 from bsoid_app.bsoid_utilities.load_workspace import load_feats, load_embeddings
 from bsoid_app.config import *
 
-framerate = os.environ.get('framerate', '')
-working_dir = os.environ.get('working_dir', '')
-prefix = os.environ.get('prefix', '')
-
 class extract:
 
     def __init__(self, working_dir, prefix, processed_input_data, framerate):
@@ -117,7 +113,7 @@ class extract:
                             (np.mean((f[m][0:dxy_feat.shape[0], range(k - round(self.framerate / 10), k)]), axis=1),
                              np.sum((f[m][dxy_feat.shape[0]:f[m].shape[0],
                                      range(k - round(self.framerate / 10), k)]), axis=1))).reshape(len(f[0]), 1)
-                if m > 0:   
+                if m > 0:
                     self.features = np.concatenate((self.features, f_integrated), axis=1)
                     scaler = StandardScaler()
                     scaler.fit(f_integrated.T)
@@ -136,7 +132,7 @@ class extract:
         print('Done extracting features from a total of {} training data files. '
                 'Now reducing dimensions...'.format(len(self.processed_input_data)))
         self.learn_embeddings()
-                            
+        
     def learn_embeddings(self):
         input_feats = self.scaled_features.T
         pca = PCA()
@@ -153,9 +149,9 @@ class extract:
         print('Randomly sampled {} minutes... '.format(self.train_size / 600))
         mem = virtual_memory()
         available_mb = mem.available >> 20
-        print('You have {} MB RAM available'.format(available_mb))
+        print('You have {} MB RAM 🐏 available'.format(available_mb))
         if available_mb > (sampled_input_feats.shape[0] * sampled_input_feats.shape[1] * 32 * 60) / 1024 ** 2 + 64:
-            print('RAM available is sufficient')
+            print('RAM 🐏 available is sufficient')
             try:
                 learned_embeddings = umap.UMAP(n_neighbors=60, n_components=num_dimensions,
                                                **UMAP_PARAMS).fit(sampled_input_feats)
@@ -177,10 +173,11 @@ class extract:
         with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_embeddings.sav'))), 'wb') as f:
             joblib.dump([self.sampled_features, self.sampled_embeddings], f)
         st.balloons()
+                
     def main(self):
         try:
             [self.sampled_features, self.sampled_embeddings] = load_embeddings(self.working_dir, self.prefix)
-            print('CHECK POINT: Done non-linear transformation of {} instances '
+            st.markdown('CHECK POINT: Done non-linear transformation of {} instances '
                         'from {} D into {} D. Move on to Identify and '
                         'tweak number of clusters'.format(*self.sampled_features.shape, self.sampled_embeddings.shape[1]))
             caching.clear_cache()
