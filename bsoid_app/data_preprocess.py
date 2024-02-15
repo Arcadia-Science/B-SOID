@@ -1,41 +1,34 @@
+
 import os
 from datetime import date
-
+import sys
 import h5py
 import joblib
 import randfacts
 import streamlit as st
-
+                    
 from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.likelihoodprocessing import *
 from bsoid_app.bsoid_utilities.load_json import *
-
-software_choice = os.environ.get('software_choice', '')
-ftype = os.environ.get('ftype', '')
-framerate = os.environ.get('framerate', '')
-value = float(os.environ.get('value', ''))
-data_directories = os.environ.get('data_directories', '')
-data_directories = data_directories.split(',')
-root_path = os.environ.get('root_path', '')
-working_dir = os.environ.get('working_dir', '')
-prefix = os.environ.get('prefix', '')
-pose_list = os.environ.get('pose_list', '')
-pose_list = pose_list.split(',')
-
+                    
+working_dir = os.environ.get('WORKING_DIR_BSOID', '')
+prefix = os.environ.get('PREFIX_BSOID', '')
+            
 class preprocess:
-
-    def __init__(self):
+                    
+    def __init__(self,software_choice,ftype,root_path,framerate,data_directories,pose_list,value):   
         print('LOAD DATA and PREPROCESS')
         self.software = software_choice
         self.ftype = ftype
         self.root_path = root_path
         self.framerate = framerate
+        self.data_directories = data_directories.split(',')
         self.pose_list = pose_list
         self.working_dir = working_dir
         self.prefix = prefix
         self.pose_chosen = []
         self.input_filenames = []
-        self.raw_input_data = []
+        self.raw_input_data = []   
         self.processed_input_data = []
         self.sub_threshold = []
         try:
@@ -45,8 +38,7 @@ class preprocess:
         except FileNotFoundError:
             st.error('No such root directory')
             sys.exit(1)
-        self.data_directories = data_directories
-        no_dir = int(value)
+        no_dir = int(float(value))
         print('You will be training on {} data file containing sub-directories.'.format(no_dir))
         print('You have selected {} as your _sub-directory(ies)_.'.format(self.data_directories))
         print('You have selected {} frames per second.'.format(self.framerate))
@@ -63,7 +55,7 @@ class preprocess:
         else:
             st.error('Please enter a prefix.')
             sys.exit(1)
-
+                
     def compile_data(self):
         if self.software == 'DeepLabCut' and self.ftype == 'csv':
             data_files = glob.glob(self.root_path + self.data_directories[0] + '/*.csv')
@@ -102,7 +94,7 @@ class preprocess:
                 if not index in self.pose_chosen:
                     self.pose_chosen += index
             self.pose_chosen.sort()
-            print("Selected poses to include:", self.pose_list)   
+            print("Selected poses to include:", self.pose_list)
             print('PREPROCESSING...')
             for i, fd in enumerate(self.data_directories):
                 f = get_filenamesh5(self.root_path, fd)
@@ -110,10 +102,10 @@ class preprocess:
                 for j, filename in enumerate(f):
                     file_j_df = pd.read_hdf(filename, low_memory=False)
                     file_j_processed, p_sub_threshold = adp_filt_h5(file_j_df, self.pose_chosen)
-                    self.raw_input_data.append(file_j_df)
-                    self.sub_threshold.append(p_sub_threshold) 
+                    self.raw_input_data.append(file_j_df)   
+                    self.sub_threshold.append(p_sub_threshold)
                     self.processed_input_data.append(file_j_processed)
-                    self.input_filenames.append(filename) 
+                    self.input_filenames.append(filename)
                     my_bar.progress(round((j + 1) / len(f) * 100))
             with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_data.sav'))), 'wb') as f:
                 joblib.dump(
@@ -134,7 +126,7 @@ class preprocess:
             print("Selected poses to include:", self.pose_list)
             print('PREPROCESSING...')
             for i, fd in enumerate(self.data_directories):
-                f = get_filenamesh5(self.root_path, fd)  
+                f = get_filenamesh5(self.root_path, fd)
                 my_bar = st.progress(0)
                 for j, filename in enumerate(f):
                     file_j_df = h5py.File(filename, 'r')
@@ -155,7 +147,7 @@ class preprocess:
         elif self.software == 'OpenPose' and self.ftype == 'json':
             data_files = glob.glob(self.root_path + self.data_directories[0] + '/*.json')
             file0_df = read_json_single(data_files[0])
-            file0_array = np.array(file0_df)
+            file0_array = np.array(file0_df)  
             for a in pose_list:
                 index = [i for i, s in enumerate(file0_array[0, 1:]) if a in s]
                 if not index in self.pose_chosen:
