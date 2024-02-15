@@ -149,9 +149,9 @@ class extract:
         print('Randomly sampled {} minutes... '.format(self.train_size / 600))
         mem = virtual_memory()
         available_mb = mem.available >> 20
-        print('You have {} MB RAM 🐏 available'.format(available_mb))
+        print('You have {} MB RAM available'.format(available_mb))
         if available_mb > (sampled_input_feats.shape[0] * sampled_input_feats.shape[1] * 32 * 60) / 1024 ** 2 + 64:
-            print('RAM 🐏 available is sufficient')
+            print('RAM available is sufficient')
             try:
                 learned_embeddings = umap.UMAP(n_neighbors=60, n_components=num_dimensions,
                                                **UMAP_PARAMS).fit(sampled_input_feats)
