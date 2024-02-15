@@ -4,19 +4,16 @@ import hdbscan
 import joblib
 import numpy as np
 import streamlit as st
+import randfacts
 
 from bsoid_app.config import *
 from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_workspace import load_clusters
 from streamlit import caching
 
-min_cluster_range = float(os.environ.get('min_cluster_range', 0.5))
-max_cluster_range = float(os.environ.get('max_cluster_range', 1))
-autosave = os.environ.get('autosave', 'Yes')
-
 class cluster:
 
-    def __init__(self, working_dir, prefix, sampled_embeddings):
+    def __init__(self, working_dir, prefix, sampled_embeddings, autosave, min_cluster_range, max_cluster_range):
         print('IDENTIFY AND TWEAK NUMBER OF CLUSTERS.')
         self.working_dir = working_dir
         self.prefix = prefix
