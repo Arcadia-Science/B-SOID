@@ -18,11 +18,13 @@ import argparse
 # POSE_LIST_BSOID: List of poses to include in analysis, for example, 'R_rear,L_rear'.
 
 # Define the command to run the Streamlit app
-cmd = [
-    "streamlit",
-    "run",
-    "bsoid_app.py",
-]
+def main():
+    cmd = [
+        "streamlit",
+        "run",
+        "bsoid_app.py",
+    ]
+    subprocess.run(cmd)
 
-# Run the Streamlit app
-subprocess.run(cmd)
+if __name__ == "__main__":
+    main()
