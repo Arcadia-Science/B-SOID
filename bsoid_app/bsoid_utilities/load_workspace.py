@@ -2,6 +2,8 @@ import streamlit as st
 import os
 import joblib
 
+working_dir = os.environ.get('WORKING_DIR_BSOID', '')
+prefix = os.environ.get('PREFIX_BSOID', '')
 
 @st.cache
 def load_data(path, name):
