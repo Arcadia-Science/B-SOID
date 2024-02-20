@@ -30,7 +30,7 @@ st.markdown(title, unsafe_allow_html=True)
 st.text('')
 
 
-processor = data_preprocess.preprocess(software_choice,ftype,root_path,framerate,data_directories,pose_list,value)
+processor = data_preprocess.preprocess(working_dir,prefix,software_choice,ftype,root_path,framerate,data_directories,pose_list,value)
 processor.compile_data()
 
 [_, _, framerate, _, _, _, processed_input_data, _] = load_data(working_dir, prefix)
