@@ -10,13 +10,10 @@ import streamlit as st
 from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.likelihoodprocessing import *
 from bsoid_app.bsoid_utilities.load_json import *
-                    
-working_dir = os.environ.get('WORKING_DIR_BSOID', '')
-prefix = os.environ.get('PREFIX_BSOID', '')
             
 class preprocess:
                     
-    def __init__(self,software_choice,ftype,root_path,framerate,data_directories,pose_list,value):   
+    def __init__(self,working_dir,prefix,software_choice,ftype,root_path,framerate,data_directories,pose_list,value):   
         print('LOAD DATA and PREPROCESS')
         self.software = software_choice
         self.ftype = ftype
