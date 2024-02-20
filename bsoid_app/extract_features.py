@@ -23,7 +23,7 @@ class extract:
         self.working_dir = working_dir
         self.prefix = prefix
         self.processed_input_data = processed_input_data
-        self.framerate = float(framerate)
+        self.framerate = framerate
         self.train_size = []
         self.features = []
         self.scaled_features = []
