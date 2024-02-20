@@ -1,5 +1,13 @@
 import os
 
+from streamlit import caching
+
+from bsoid_app import data_preprocess, extract_features, clustering, machine_learner, \
+    export_training, video_creator, predict
+from bsoid_app.bsoid_utilities import visuals
+from bsoid_app.bsoid_utilities.load_css import local_css
+from bsoid_app.bsoid_utilities.load_workspace import *
+
 working_dir = os.environ.get('WORKING_DIR_BSOID', '')
 prefix = os.environ.get('PREFIX_BSOID', '')
 framerate = float(os.environ.get('FRAMERATE_BSOID', ''))
@@ -12,14 +20,6 @@ min_cluster_range = float(os.environ.get('MIN_CLUSTER_BSOID', '0.5'))
 max_cluster_range = float(os.environ.get('MAX_CLUSTER_BSOID', '1'))
 autosave = os.environ.get('AUTOSAVE_BSOID', 'Yes')
 pose_list = os.environ.get('POSE_LIST_BSOID', '')
-
-from streamlit import caching
-
-from bsoid_app import data_preprocess, extract_features, clustering, machine_learner, \
-    export_training, video_creator, predict
-from bsoid_app.bsoid_utilities import visuals
-from bsoid_app.bsoid_utilities.load_css import local_css
-from bsoid_app.bsoid_utilities.load_workspace import *
 
 st.set_page_config(page_title='B-SOiD v2.0', page_icon="🐁",
                    layout='wide', initial_sidebar_state='auto')
