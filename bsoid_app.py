@@ -8,18 +8,29 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_css import local_css
 from bsoid_app.bsoid_utilities.load_workspace import *
 
-working_dir = os.environ.get('WORKING_DIR_BSOID', '')
-prefix = os.environ.get('PREFIX_BSOID', '')
-framerate = float(os.environ.get('FRAMERATE_BSOID', ''))
-software_choice = os.environ.get('SOFTWARE_BSOID', '')
-ftype = os.environ.get('FTYPE_BSOID', '')
-root_path = os.environ.get('ROOT_PATH_BSOID', '')
-value = os.environ.get('VALUE_BSOID', '')
-data_directories = os.environ.get('DATA_DIR_BSOID', '')
-min_cluster_range = float(os.environ.get('MIN_CLUSTER_BSOID', '0.5'))
-max_cluster_range = float(os.environ.get('MAX_CLUSTER_BSOID', '1'))
-autosave = os.environ.get('AUTOSAVE_BSOID', 'Yes')
-pose_list = os.environ.get('POSE_LIST_BSOID', '')
+def get_env_variable(var_name, default_value=None):
+    #Retrieve an environment variable. Ensure it is not empty if no default value is provided.
+    value = os.environ.get(var_name, default_value)
+    if default_value is None and not value:
+        raise ValueError(f"Environment variable '{var_name}' is required and cannot be empty.")
+    return value
+
+try:
+    working_dir = get_env_variable('WORKING_DIR_BSOID')
+    prefix = get_env_variable('PREFIX_BSOID')
+    framerate = float(get_env_variable('FRAMERATE_BSOID'))
+    software_choice = get_env_variable('SOFTWARE_BSOID')
+    ftype = get_env_variable('FTYPE_BSOID')
+    root_path = get_env_variable('ROOT_PATH_BSOID')
+    value = get_env_variable('VALUE_BSOID')
+    data_directories = get_env_variable('DATA_DIR_BSOID')
+    min_cluster_range = float(get_env_variable('MIN_CLUSTER_BSOID', '0.5'))
+    max_cluster_range = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
+    autosave = get_env_variable('AUTOSAVE_BSOID', 'Yes')
+    pose_list = get_env_variable('POSE_LIST_BSOID')
+except ValueError as e:
+    print(e)
+    exit(1)  # Exit if any required variable is missing or if a conversion to float fails
 
 st.set_page_config(page_title='B-SOiD v2.0', page_icon="🐁",
                    layout='wide', initial_sidebar_state='auto')
