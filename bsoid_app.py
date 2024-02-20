@@ -2,7 +2,7 @@ import os
 
 working_dir = os.environ.get('WORKING_DIR_BSOID', '')
 prefix = os.environ.get('PREFIX_BSOID', '')
-framerate = os.environ.get('FRAMERATE_BSOID', '')
+framerate = float(os.environ.get('FRAMERATE_BSOID', ''))
 software_choice = os.environ.get('SOFTWARE_BSOID', '')
 ftype = os.environ.get('FTYPE_BSOID', '')
 root_path = os.environ.get('ROOT_PATH_BSOID', '')
