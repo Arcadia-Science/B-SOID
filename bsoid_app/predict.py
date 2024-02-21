@@ -11,23 +11,23 @@ from bsoid_app.bsoid_utilities.likelihoodprocessing import *
 from bsoid_app.bsoid_utilities.load_json import *
 
 
-class prediction:
+class Prediction:
 
-    def __init__(self, root_path, data_directories, input_filenames, processed_input_data, working_dir, prefix,
-                 framerate, pose_chosen, predictions, clf):
+    def __init__(self, ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR, PREFIX,
+                 FRAMERATE, pose_chosen, predictions, clf):
         st.subheader('PREDICT OLD/NEW FILES USING A MODEL')
         st.markdown('This could take some time for large datasets.')
         self.options = st.multiselect('What csv files to export?',
                                       ['Labels tagged onto pose files', 'Group durations (in frames)',
                                        'Transition matrix'],
                                       ['Labels tagged onto pose files', 'Transition matrix'])
-        self.root_path = root_path
-        self.data_directories = data_directories
+        self.root_path = ROOT_PATH
+        self.data_directories = DATA_DIRECTORIES
         self.input_filenames = input_filenames
         self.processed_input_data = processed_input_data
-        self.working_dir = working_dir
-        self.prefix = prefix
-        self.framerate = framerate
+        self.working_dir = WORKING_DIR
+        self.prefix = PREFIX
+        self.framerate = FRAMERATE
         self.pose_chosen = pose_chosen
         self.predictions = predictions
         self.clf = clf
@@ -84,16 +84,16 @@ class prediction:
             st.write('Average video frame-rate for xxx.{} pose estimate files.'.format(self.filetype))
             self.new_framerate = int(st.number_input('What is your frame-rate?', value=self.framerate))
             st.markdown('You have selected **{} frames per second**.'.format(self.new_framerate))
-        if st.checkbox('For every new dataset, you would want to change the prefix so it does not overwrite previous '
-                       'predictions. Would you like to change the prefix? Currently it is set to save'
+        if st.checkbox('For every new dataset, you would want to change the PREFIX so it does not overwrite previous '
+                       'predictions. Would you like to change the PREFIX? Currently it is set to save'
                        ' as **{}/{}_predictions.sav**.'.format(self.working_dir, self.prefix), False, key='pp'):
             today = date.today()
             d4 = today.strftime("%b-%d-%Y")
-            self.new_prefix = st.text_input('Enter new prediction variable prefix:', d4)
+            self.new_prefix = st.text_input('Enter new prediction variable PREFIX:', d4)
             if self.new_prefix:
                 st.markdown('You have chosen **{}_predictions.sav** for new predictions.'.format(self.new_prefix))
             else:
-                st.error('Please enter a name for your new prediction variable prefix.')
+                st.error('Please enter a name for your new prediction variable PREFIX.')
         else:
             self.new_prefix = self.prefix
 

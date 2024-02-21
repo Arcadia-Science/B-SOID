@@ -1,3 +1,5 @@
+import os
+
 from streamlit import caching
 
 from bsoid_app import data_preprocess, extract_features, clustering, machine_learner, \
@@ -6,10 +8,29 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_css import local_css
 from bsoid_app.bsoid_utilities.load_workspace import *
 
+def get_env_variable(var_name, default_value=None):
+    # Retrieve an environment variable. Ensure it is not empty if no default value is provided.
+    value = os.environ.get(var_name, default_value)
+    if default_value is None and not value:
+        raise ValueError(f"Environment variable '{var_name}' is required and cannot be empty.")
+    return value
 
-def streamlit_run(pyfile):
-    os.system("streamlit run {}.py".format(pyfile))
-
+try:
+    WORKING_DIR = get_env_variable('WORKING_DIR_BSOID')
+    PREFIX = get_env_variable('PREFIX_BSOID')
+    FRAMERATE = float(get_env_variable('FRAMERATE_BSOID'))
+    SOFTWARE_CHOICE = get_env_variable('SOFTWARE_BSOID')
+    FTYPE = get_env_variable('FTYPE_BSOID')
+    ROOT_PATH = get_env_variable('ROOT_PATH_BSOID')
+    VALUE = get_env_variable('VALUE_BSOID')
+    DATA_DIRECTORIES = get_env_variable('DATA_DIR_BSOID')
+    MIN_CLUSTER_RANGE = float(get_env_variable('MIN_CLUSTER_BSOID', '0.5'))
+    MAX_CLUSTER_RANGE = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
+    AUTOSAVE = get_env_variable('AUTOSAVE_BSOID', 'Yes')
+    POSE_LIST = get_env_variable('POSE_LIST_BSOID')
+except ValueError as e:
+    print(e)
+    exit(1)  # Exit if any required variable is missing or if a conversion to float fails
 
 st.set_page_config(page_title='B-SOiD v2.0', page_icon="🐁",
                    layout='wide', initial_sidebar_state='auto')
@@ -17,62 +38,44 @@ local_css("bsoid_app/bsoid_utilities/style.css")
 title = "<div> <span class='bold'><span class='h1'>B-SOID</span></span> " \
         "   <span class='h2'>--version 2.0 🐁</span> </div>"
 st.markdown(title, unsafe_allow_html=True)
-st.markdown('Step 1: Select Load Data and Preprocess. Complete the step.')
-st.markdown('Step 2: Deselect Load Data and Preprocess, and select Load Previous Iteration. Fill in prompts.')
-st.markdown('Step 3: Starting with Extract Features and Identify Clusters, select single procedure and progress.')
 st.text('')
-if st.sidebar.checkbox('Load previous iteration', False, key='l'):
-    working_dir, prefix = query_workspace()
-if st.sidebar.checkbox('Load data and preprocess', False, key='d'):
-    try:
-        [_, _, _, _, _, raw_input_data, processed_input_data, sub_threshold] = load_data(working_dir, prefix)
-        st.markdown('**_CHECK POINT_**: Processed a total of **{}** data files, '
-                    'and compiled into a **{}** data list. Move on to '
-                    '__Extract and embed features__.'.format(len(raw_input_data), processed_input_data.shape))
-        if st.checkbox('Redo?', False):
-            caching.clear_cache()
-            processor = data_preprocess.preprocess()
-            processor.compile_data()
-        if st.checkbox('Show % time (possibly) occluded?', True):
-            visuals.plot_bar(sub_threshold)
-        if st.checkbox("Show raw vs processed data?", False):
-            visuals.show_data_table(raw_input_data, processed_input_data)
-    except NameError:
-        processor = data_preprocess.preprocess()
-        processor.compile_data()
-if st.sidebar.checkbox('Extract and embed features', False, key='f'):
-    [_, _, framerate, _, _, _, processed_input_data, _] = load_data(working_dir, prefix)
-    extractor = extract_features.extract(working_dir, prefix, processed_input_data, framerate)
-    extractor.main()
-if st.sidebar.checkbox('Identify and tweak number of clusters', False, key='c'):
-    [_, sampled_embeddings] = load_embeddings(working_dir, prefix)
-    clusterer = clustering.cluster(working_dir, prefix, sampled_embeddings)
-    clusterer.main()
-if st.sidebar.checkbox('(Optional) What did B-SOiD learn?', False, key='e'):
-    [sampled_features, _] = load_embeddings(working_dir, prefix)
-    [_, assignments, assign_prob, soft_assignments] = load_clusters(working_dir, prefix)
-    exporter = export_training.export(working_dir, prefix, sampled_features,
-                                      assignments, assign_prob, soft_assignments)
-    exporter.save_csv()
-if st.sidebar.checkbox('Create a model', False, key='t'):
-    [features, _] = load_feats(working_dir, prefix)
-    [sampled_features, _] = load_embeddings(working_dir, prefix)
-    [_, assignments, _, _] = load_clusters(working_dir, prefix)
-    learning_protocol = machine_learner.protocol(working_dir, prefix, features, sampled_features, assignments)
-    learning_protocol.main()
-if st.sidebar.checkbox('Generate video snippets for interpretation', False, key='g'):
-    [root_path, data_directories, framerate, pose_chosen, input_filenames, _, processed_input_data, _] \
-        = load_data(working_dir, prefix)
-    [_, _, _, clf, _, _] = load_classifier(working_dir, prefix)
-    creator = video_creator.creator(root_path, data_directories, processed_input_data, pose_chosen,
-                                    working_dir, prefix, framerate, clf, input_filenames)
-    creator.main()
-if st.sidebar.checkbox('Predict old/new files using a model', False, key='p'):
-    [root_path, data_directories, framerate, pose_chosen, input_filenames, _, processed_input_data, _] \
-        = load_data(working_dir, prefix)
-    [_, _, _, clf, _, predictions] = load_classifier(working_dir, prefix)
-    predictor = predict.prediction(root_path, data_directories, input_filenames, processed_input_data, working_dir,
-                                   prefix, framerate, pose_chosen, predictions, clf)
-    predictor.main()
-if st.sidebar.checkbox('Load up analysis app (please close current browser when new browser pops up)', False):
-    streamlit_run('./bsoid_app/bsoid_analysis')
+
+
+processor = data_preprocess.Preprocess(WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTYPE, ROOT_PATH, FRAMERATE, DATA_DIRECTORIES, POSE_LIST, VALUE)
+processor.compile_data()
+
+[_, _, FRAMERATE, _, _, _, processed_input_data, _] = load_data(WORKING_DIR, PREFIX)
+extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE)
+extractor.main()
+
+[_, sampled_embeddings] = load_embeddings(WORKING_DIR, PREFIX)
+clusterer = clustering.Cluster(WORKING_DIR, PREFIX, sampled_embeddings, AUTOSAVE, MIN_CLUSTER_RANGE, MAX_CLUSTER_RANGE)
+clusterer.main()
+
+[sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
+[_, assignments, assign_prob, soft_assignments] = load_clusters(WORKING_DIR, PREFIX)
+exporter = export_training.Export(WORKING_DIR, PREFIX, sampled_features,
+                                  assignments, assign_prob, soft_assignments)
+exporter.save_csv()
+
+[features, _] = load_feats(WORKING_DIR, PREFIX)
+[sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
+[_, assignments, _, _] = load_clusters(WORKING_DIR, PREFIX)
+learning_protocol = machine_learner.protocol(WORKING_DIR, PREFIX, features, sampled_features, assignments)
+learning_protocol.main()
+
+[ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
+    = load_data(WORKING_DIR, PREFIX)
+[_, _, _, clf, _, _] = load_classifier(WORKING_DIR, PREFIX)
+creator = video_creator.creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
+                                WORKING_DIR, PREFIX, FRAMERATE, clf, input_filenames)
+creator.main()
+
+[ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
+    = load_data(WORKING_DIR, PREFIX)
+[_, _, _, clf, _, predictions] = load_classifier(WORKING_DIR, PREFIX)
+predictor = predict.prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
+                               PREFIX, FRAMERATE, pose_chosen, predictions, clf)
+predictor.main()
+
+streamlit_run('./bsoid_app/bsoid_analysis')

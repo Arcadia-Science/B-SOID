@@ -2,7 +2,6 @@ import streamlit as st
 import os
 import joblib
 
-
 @st.cache
 def load_data(path, name):
     with open(os.path.join(path, str.join('', (name, '_data.sav'))), 'rb') as fr:

@@ -6,9 +6,9 @@ import streamlit as st
 from bsoid_app.bsoid_utilities.statistics import *
 
 
-class export:
+class Export:
 
-    def __init__(self, working_dir, prefix, sampled_features, assignments, assign_prob, soft_assignments):
+    def __init__(self, WORKING_DIR, PREFIX, sampled_features, assignments, assign_prob, soft_assignments):
         st.subheader('WHAT DID B-SOID LEARN?')
         self.options = st.multiselect('What do you want to know?',
                                       ['List of pose-relationship features',
@@ -16,8 +16,8 @@ class export:
                                        'Assignment probabilities'],
                                       ['Mapping between features and assignment'])
         try:
-            self.working_dir = working_dir
-            self.prefix = prefix
+            self.working_dir = WORKING_DIR
+            self.prefix = PREFIX
             self.sampled_features = sampled_features
             self.assignments = assignments
             self.assign_prob = assign_prob
