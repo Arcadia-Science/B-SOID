@@ -41,7 +41,7 @@ st.markdown(title, unsafe_allow_html=True)
 st.text('')
 
 
-processor = data_preprocess.Preprocess(WORKING_DIR,PREFIX,SOFTWARE_CHOICE,FTYPE,ROOT_PATH,FRAMERATE,DATA_DIRECTORIES,POSE_LIST,VALUE)
+processor = data_preprocess.Preprocess(WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTYPE, ROOT_PATH, FRAMERATE, DATA_DIRECTORIES, POSE_LIST, VALUE)
 processor.compile_data()
 
 [_, _, FRAMERATE, _, _, _, processed_input_data, _] = load_data(WORKING_DIR, PREFIX)
@@ -49,7 +49,7 @@ extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, 
 extractor.main()
 
 [_, sampled_embeddings] = load_embeddings(WORKING_DIR, PREFIX)
-clusterer = clustering.Cluster(WORKING_DIR, PREFIX, sampled_embeddings,AUTOSAVE, MIN_CLUSTER_RANGE,MAX_CLUSTER_RANGE)
+clusterer = clustering.Cluster(WORKING_DIR, PREFIX, sampled_embeddings, AUTOSAVE, MIN_CLUSTER_RANGE, MAX_CLUSTER_RANGE)
 clusterer.main()
 
 [sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
