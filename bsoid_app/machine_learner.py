@@ -12,12 +12,12 @@ from streamlit import caching
 import matplotlib.pyplot as plt
         
         
-class protocol:
+class Protocol:
         
-    def __init__(self, working_dir, prefix, features, sampled_features, assignments):
+    def __init__(self, WORKING_DIR, PREFIX, features, sampled_features, assignments):
         print('CREATE A MODEL')
-        self.working_dir = working_dir
-        self.prefix = prefix  
+        self.working_dir = WORKING_DIR
+        self.prefix = PREFIX  
         self.features = features
         self.sampled_features = sampled_features
         self.assignments = assignments
