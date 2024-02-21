@@ -16,7 +16,7 @@ from bsoid_app.bsoid_utilities.likelihoodprocessing import boxcar_center
 from bsoid_app.bsoid_utilities.load_workspace import load_feats, load_embeddings
 from bsoid_app.config import *
 
-class extract:
+class Extract:
 
     def __init__(self, WORKING_DIR, PREFIX, processed_input_data, FRAMERATE):
         print('EXTRACT AND EMBED FEATURES')
