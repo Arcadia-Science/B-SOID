@@ -172,7 +172,6 @@ class Extract:
                 *self.sampled_features.shape, self.sampled_embeddings.shape[1]))
         with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_embeddings.sav'))), 'wb') as f:
             joblib.dump([self.sampled_features, self.sampled_embeddings], f)
-        st.balloons()
                 
     def main(self):
         try:
