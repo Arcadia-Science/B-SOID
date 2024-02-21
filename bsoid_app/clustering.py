@@ -11,7 +11,7 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_workspace import load_clusters
 from streamlit import caching
 
-class cluster:
+class Cluster:
 
     def __init__(self, WORKING_DIR, PREFIX, sampled_embeddings, AUTOSAVE, MIN_CLUSTER_RANGE, MAX_CLUSTER_RANGE):
         print('IDENTIFY AND TWEAK NUMBER OF CLUSTERS.')
