@@ -10,7 +10,7 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.likelihoodprocessing import *
 from bsoid_app.bsoid_utilities.load_json import *
             
-class preprocess:
+class Preprocess:
                     
     def __init__(self,WORKING_DIR,PREFIX,SOFTWARE_CHOICE,FTYPE,ROOT_PATH,FRAMERATE,DATA_DIRECTORIES,POSE_LIST,VALUE):   
         print('LOAD DATA and PREPROCESS')
