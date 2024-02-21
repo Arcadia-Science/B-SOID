@@ -61,13 +61,13 @@ exporter.save_csv()
 [features, _] = load_feats(WORKING_DIR, PREFIX)
 [sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
 [_, assignments, _, _] = load_clusters(WORKING_DIR, PREFIX)
-learning_protocol = machine_learner.protocol(WORKING_DIR, PREFIX, features, sampled_features, assignments)
+learning_protocol = machine_learner.Protocol(WORKING_DIR, PREFIX, features, sampled_features, assignments)
 learning_protocol.main()
 
 [ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
     = load_data(WORKING_DIR, PREFIX)
 [_, _, _, clf, _, _] = load_classifier(WORKING_DIR, PREFIX)
-creator = video_creator.creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
+creator = video_creator.Creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
                                 WORKING_DIR, PREFIX, FRAMERATE, clf, input_filenames)
 creator.main()
 
