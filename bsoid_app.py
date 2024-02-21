@@ -41,20 +41,20 @@ st.markdown(title, unsafe_allow_html=True)
 st.text('')
 
 
-processor = data_preprocess.preprocess(WORKING_DIR,PREFIX,SOFTWARE_CHOICE,FTYPE,ROOT_PATH,FRAMERATE,DATA_DIRECTORIES,POSE_LIST,VALUE)
+processor = data_preprocess.Preprocess(WORKING_DIR,PREFIX,SOFTWARE_CHOICE,FTYPE,ROOT_PATH,FRAMERATE,DATA_DIRECTORIES,POSE_LIST,VALUE)
 processor.compile_data()
 
 [_, _, FRAMERATE, _, _, _, processed_input_data, _] = load_data(WORKING_DIR, PREFIX)
-extractor = extract_features.extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE)
+extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE)
 extractor.main()
 
 [_, sampled_embeddings] = load_embeddings(WORKING_DIR, PREFIX)
-clusterer = clustering.cluster(WORKING_DIR, PREFIX, sampled_embeddings,AUTOSAVE, MIN_CLUSTER_RANGE,MAX_CLUSTER_RANGE)
+clusterer = clustering.Cluster(WORKING_DIR, PREFIX, sampled_embeddings,AUTOSAVE, MIN_CLUSTER_RANGE,MAX_CLUSTER_RANGE)
 clusterer.main()
 
 [sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
 [_, assignments, assign_prob, soft_assignments] = load_clusters(WORKING_DIR, PREFIX)
-exporter = export_training.export(WORKING_DIR, PREFIX, sampled_features,
+exporter = export_training.Export(WORKING_DIR, PREFIX, sampled_features,
                                   assignments, assign_prob, soft_assignments)
 exporter.save_csv()
 
