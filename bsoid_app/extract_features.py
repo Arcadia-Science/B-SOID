@@ -18,12 +18,12 @@ from bsoid_app.config import *
 
 class extract:
 
-    def __init__(self, working_dir, prefix, processed_input_data, framerate):
+    def __init__(self, WORKING_DIR, PREFIX, processed_input_data, FRAMERATE):
         print('EXTRACT AND EMBED FEATURES')
-        self.working_dir = working_dir
-        self.prefix = prefix
+        self.WORKING_DIR = WORKING_DIR
+        self.PREFIX = PREFIX
         self.processed_input_data = processed_input_data
-        self.framerate = framerate
+        self.FRAMERATE = FRAMERATE
         self.train_size = []
         self.features = []
         self.scaled_features = []
@@ -33,8 +33,8 @@ class extract:
     def subsample(self):
         data_size = 0
         for n in range(len(self.processed_input_data)):
-            data_size += len(range(round(self.framerate / 10), self.processed_input_data[n].shape[0],
-                                   round(self.framerate / 10)))
+            data_size += len(range(round(self.FRAMERATE / 10), self.processed_input_data[n].shape[0],
+                                   round(self.FRAMERATE / 10)))
         fraction = st.number_input('Enter training input __fraction__ (do not change this value if you wish '
                                    'to generate the side-by-side video seen on our GitHub page):',
                                    min_value=0.1, max_value=1.0, value=1.0)
@@ -43,14 +43,14 @@ class extract:
         else:
             self.train_size = int(data_size * fraction)
         print('You have opted to train on a cumulative of {} minutes total. '
-                    'If this does not sound right, the framerate might be wrong.'.format(self.train_size / 600))
+                    'If this does not sound right, the FRAMERATE might be wrong.'.format(self.train_size / 600))
 
     def compute(self):
         print('Extracting...')
         try:
-            [self.features, self.scaled_features] = load_feats(self.working_dir, self.prefix)
+            [self.features, self.scaled_features] = load_feats(self.WORKING_DIR, self.PREFIX)
         except:
-            window = np.int(np.round(0.05 / (1 / self.framerate)) * 2 - 1)
+            window = np.int(np.round(0.05 / (1 / self.FRAMERATE)) * 2 - 1)
             f = []
             my_bar = st.progress(0)
             for n in range(len(self.processed_input_data)):
@@ -98,21 +98,21 @@ class extract:
                 my_bar.progress(round((n + 1) / len(self.processed_input_data) * 100))
             for m in range(0, len(f)):
                 f_integrated = np.zeros(len(self.processed_input_data[m]))
-                for k in range(round(self.framerate / 10), len(f[m][0]), round(self.framerate / 10)):
-                    if k > round(self.framerate / 10):
+                for k in range(round(self.FRAMERATE / 10), len(f[m][0]), round(self.FRAMERATE / 10)):
+                    if k > round(self.FRAMERATE / 10):
                         f_integrated = np.concatenate(
                             (f_integrated.reshape(f_integrated.shape[0], f_integrated.shape[1]),
                              np.hstack((np.mean((f[m][0:dxy_feat.shape[0],
-                                                 range(k - round(self.framerate / 10), k)]), axis=1),
+                                                 range(k - round(self.FRAMERATE / 10), k)]), axis=1),
                                        np.sum((f[m][dxy_feat.shape[0]:f[m].shape[0],
-                                                range(k - round(self.framerate / 10), k)]), axis=1)
+                                                range(k - round(self.FRAMERATE / 10), k)]), axis=1)
                                         )).reshape(len(f[0]), 1)), axis=1
                         )
                     else:
                         f_integrated = np.hstack(
-                            (np.mean((f[m][0:dxy_feat.shape[0], range(k - round(self.framerate / 10), k)]), axis=1),
+                            (np.mean((f[m][0:dxy_feat.shape[0], range(k - round(self.FRAMERATE / 10), k)]), axis=1),
                              np.sum((f[m][dxy_feat.shape[0]:f[m].shape[0],
-                                     range(k - round(self.framerate / 10), k)]), axis=1))).reshape(len(f[0]), 1)
+                                     range(k - round(self.FRAMERATE / 10), k)]), axis=1))).reshape(len(f[0]), 1)
                 if m > 0:
                     self.features = np.concatenate((self.features, f_integrated), axis=1)
                     scaler = StandardScaler()
@@ -127,7 +127,7 @@ class extract:
                     self.scaled_features = scaled_f_integrated
             self.features = np.array(self.features)
             self.scaled_features = np.array(self.scaled_features)
-            with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_feats.sav'))), 'wb') as f:
+            with open(os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_feats.sav'))), 'wb') as f:
                 joblib.dump([self.features, self.scaled_features], f)
         print('Done extracting features from a total of {} training data files. '
                 'Now reducing dimensions...'.format(len(self.processed_input_data)))
@@ -170,13 +170,13 @@ class extract:
         print(
             'Done non-linear embedding of {} instances from {} D into {} D.'.format(
                 *self.sampled_features.shape, self.sampled_embeddings.shape[1]))
-        with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_embeddings.sav'))), 'wb') as f:
+        with open(os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_embeddings.sav'))), 'wb') as f:
             joblib.dump([self.sampled_features, self.sampled_embeddings], f)
         st.balloons()
                 
     def main(self):
         try:
-            [self.sampled_features, self.sampled_embeddings] = load_embeddings(self.working_dir, self.prefix)
+            [self.sampled_features, self.sampled_embeddings] = load_embeddings(self.WORKING_DIR, self.PREFIX)
             st.markdown('CHECK POINT: Done non-linear transformation of {} instances '
                         'from {} D into {} D. Move on to Identify and '
                         'tweak number of clusters'.format(*self.sampled_features.shape, self.sampled_embeddings.shape[1]))
