@@ -74,7 +74,7 @@ creator.main()
 [ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
     = load_data(WORKING_DIR, PREFIX)
 [_, _, _, clf, _, predictions] = load_classifier(WORKING_DIR, PREFIX)
-predictor = predict.prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
+predictor = predict.Prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
                                PREFIX, FRAMERATE, pose_chosen, predictions, clf)
 predictor.main()
 
