@@ -15,13 +15,13 @@ class Cluster:
 
     def __init__(self, WORKING_DIR, PREFIX, sampled_embeddings, AUTOSAVE, MIN_CLUSTER_RANGE, MAX_CLUSTER_RANGE):
         print('IDENTIFY AND TWEAK NUMBER OF CLUSTERS.')
-        self.WORKING_DIR = WORKING_DIR
-        self.PREFIX = PREFIX
+        self.working_dir = WORKING_DIR
+        self.prefix = PREFIX
         self.sampled_embeddings = sampled_embeddings
         self.cluster_range = []
-        self.AUTOSAVE = AUTOSAVE
-        self.MIN_CLUSTER_RANGE = MIN_CLUSTER_RANGE
-        self.MAX_CLUSTER_RANGE = MAX_CLUSTER_RANGE
+        self.autosave = AUTOSAVE
+        self.min_cluster_range = MIN_CLUSTER_RANGE
+        self.max_cluster_range = MAX_CLUSTER_RANGE
         self.cluster_range = [MIN_CLUSTER_RANGE, MAX_CLUSTER_RANGE]
         print(f'Your cluster range is set to {self.cluster_range}')
         self.assignments = []
@@ -62,16 +62,16 @@ class Cluster:
 
 
     def save(self):
-        if self.AUTOSAVE == 'Yes':
-            print('You have chosen to AUTOSAVE clustering as you go (overwrites previously saved clustering).')
-            with open(os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_clusters.sav'))), 'wb') as f:
+        if self.autosave == 'Yes':
+            print('You have chosen to autosave clustering as you go (overwrites previously saved clustering).')
+            with open(os.path.join(self.working_dir, str.join('', (self.prefix, '_clusters.sav'))), 'wb') as f:
                 joblib.dump([self.min_cluster_size, self.assignments, self.assign_prob, self.soft_assignments], f)
 
     def main(self):
         try:
             caching.clear_cache()
             [self.min_cluster_size, self.assignments, self.assign_prob, self.soft_assignments] = \
-                load_clusters(self.WORKING_DIR, self.PREFIX)
+                load_clusters(self.working_dir, self.prefix)
             print(
                 'Done assigning labels for {} instances in {} D space. Move on to create '
                 'a model.'.format(self.assignments.shape, self.sampled_embeddings.shape[1]))
