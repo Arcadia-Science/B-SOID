@@ -11,7 +11,7 @@ from bsoid_app.bsoid_utilities.likelihoodprocessing import *
 from bsoid_app.bsoid_utilities.load_json import *
 
 
-class Prediction:
+class prediction:
 
     def __init__(self, ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR, PREFIX,
                  FRAMERATE, pose_chosen, predictions, clf):
