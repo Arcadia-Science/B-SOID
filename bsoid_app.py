@@ -8,7 +8,7 @@ from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_css import local_css
 from bsoid_app.bsoid_utilities.load_workspace import *
 
-def get_env_variable(var_name, default_VALUE=None):
+def get_env_variable(var_name, default_value=None):
     # Retrieve an environment variable. Ensure it is not empty if no default VALUE is provided.
     VALUE = os.environ.get(var_name, default_VALUE)
     if default_VALUE is None and not VALUE:
