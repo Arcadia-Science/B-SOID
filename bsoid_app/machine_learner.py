@@ -11,7 +11,7 @@ from bsoid_app.bsoid_utilities.load_workspace import load_classifier
 from streamlit import caching
 
 
-class Protocol:
+class protocol:
 
     def __init__(self, working_dir, prefix, features, sampled_features, assignments):
         st.subheader('CREATE A MODEL')
