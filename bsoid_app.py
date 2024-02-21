@@ -28,7 +28,7 @@ try:
     MAX_CLUSTER_RANGE = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
     AUTOSAVE = get_env_variable('AUTOSAVE_BSOID', 'Yes')
     POSE_LIST = get_env_variable('POSE_LIST_BSOID')
-except VALUEError as e:
+except ValueError as e:
     print(e)
     exit(1)  # Exit if any required variable is missing or if a conversion to float fails
 
