@@ -12,7 +12,7 @@ from bsoid_app.bsoid_utilities.load_json import *
             
 class Preprocess:
                     
-    def __init__(self,WORKING_DIR,PREFIX,SOFTWARE_CHOICE,FTYPE,ROOT_PATH,FRAMERATE,DATA_DIRECTORIES,POSE_LIST,VALUE):   
+    def __init__(self, WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTYPE, ROOT_PATH, FRAMERATE, DATA_DIRECTORIES, POSE_LIST, VALUE):   
         print('LOAD DATA and PREPROCESS')
         self.software = SOFTWARE_CHOICE
         self.ftype = FTYPE
