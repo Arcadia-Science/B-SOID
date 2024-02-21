@@ -17,10 +17,7 @@ local_css("./bsoid_app/bsoid_utilities/style.css")
 title = "<div> <span class='bold'><span class='h1'>B-SOID</span></span> " \
         "   <span class='h2'>anaylsis 📊</span></span> </div>"
 st.markdown(title, unsafe_allow_html=True)
-st.markdown('Step 1: Pick the directory and workspace to analyze.')
-st.markdown('Step 2: Once input, select the type of results to analyze using the sidebar modules.')
 st.text('')
-WORKING_DIR = st.text_input('Enter B-SOiD __output directory__ from using the B-SOiD --version 2.0 App')
 try:
     os.listdir(WORKING_DIR)
     st.markdown(
