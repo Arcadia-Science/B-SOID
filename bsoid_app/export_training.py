@@ -16,8 +16,8 @@ class Export:
                                        'Assignment probabilities'],
                                       ['Mapping between features and assignment'])
         try:
-            self.WORKING_DIR = WORKING_DIR
-            self.PREFIX = PREFIX
+            self.working_dir = WORKING_DIR
+            self.prefix = PREFIX
             self.sampled_features = sampled_features
             self.assignments = assignments
             self.assign_prob = assign_prob
@@ -39,7 +39,7 @@ class Export:
                     f_dist_data = pd.concat((feats_med_df, feats_edge_df, feats_pcts_df), axis=1)
                     f_dist_data.index.name = 'Pose_relationships'
                     f_dist_data.to_csv(
-                        (os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_pose_relationships.csv')))),
+                        (os.path.join(self.working_dir, str.join('', (self.prefix, '_pose_relationships.csv')))),
                         index=True, chunksize=10000, encoding='utf-8')
                 if any('Mapping between features and assignment' in o for o in self.options):
                     feature_type1_name = []
@@ -62,7 +62,7 @@ class Export:
                     training_data = pd.concat((features_df, assignments_df), axis=1)
                     training_data.index.name = 'Frame@10hz'
                     training_data.to_csv(
-                        (os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_mapping.csv')))),
+                        (os.path.join(self.working_dir, str.join('', (self.prefix, '_mapping.csv')))),
                         index=True, chunksize=10000, encoding='utf-8')
                 if any('Assignment probabilities' in o for o in self.options):
                     multi_columns = [str.join('', ('Group', str(i), '_probability'))
@@ -70,7 +70,7 @@ class Export:
                     assign_prob_df = pd.DataFrame(self.assign_prob, columns=multi_columns)
                     assign_prob_df.index.name = 'Frame@10hz'
                     assign_prob_df.to_csv(
-                        (os.path.join(self.WORKING_DIR, str.join('', (self.PREFIX, '_assign_prob.csv')))),
+                        (os.path.join(self.working_dir, str.join('', (self.prefix, '_assign_prob.csv')))),
                         index=True, chunksize=10000, encoding='utf-8')
                 st.balloons()
             except AttributeError:
