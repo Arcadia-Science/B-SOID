@@ -18,7 +18,7 @@ from bsoid_app.config import *
 
 class Extract:
 
-    def __init__(self, WORKING_DIR, PREFIX, processed_input_data, FRAMERATE):
+    def __init__(self, WORKING_DIR, PREFIX, processed_input_data, FRAMERATE, FRACTION):
         print('EXTRACT AND EMBED FEATURES')
         self.working_dir = WORKING_DIR
         self.prefix = PREFIX
@@ -29,15 +29,13 @@ class Extract:
         self.scaled_features = []
         self.sampled_features = []
         self.sampled_embeddings = []
+        fraction = FRACTION
 
     def subsample(self):
         data_size = 0
         for n in range(len(self.processed_input_data)):
             data_size += len(range(round(self.framerate / 10), self.processed_input_data[n].shape[0],
                                    round(self.framerate / 10)))
-        fraction = st.number_input('Enter training input __fraction__ (do not change this value if you wish '
-                                   'to generate the side-by-side video seen on our GitHub page):',
-                                   min_value=0.1, max_value=1.0, value=1.0)
         if fraction == 1.0:
             self.train_size = data_size
         else:
