@@ -31,6 +31,7 @@ try:
     MIN_TIME = get_env_variable('MIN_TIME','200')
     NUMBER_EXAMPLES = get_env_variable('NUMBER_EXAMPLES','5')
     PLAYBACK_SPEED = get_env_variable('PLAYBACK_SPEED','0.75')
+    FRACTION = get_env_variable('FRACTION','1')
 
 except ValueError as e:
     print(e)
@@ -49,7 +50,7 @@ processor = data_preprocess.Preprocess(WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTY
 processor.compile_data()
 
 [_, _, FRAMERATE, _, _, _, processed_input_data, _] = load_data(WORKING_DIR, PREFIX)
-extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE)
+extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE, FRACTION)
 extractor.main()
 
 [_, sampled_embeddings] = load_embeddings(WORKING_DIR, PREFIX)
