@@ -22,7 +22,7 @@ def selected_vid(vid_file):
 class Creator:
 
     def __init__(self, ROOT_PATH, DATA_DIRECTORIES, processed_input_data,
-                 pose_chosen, WORKING_DIR, PREFIX, FRAMERATE, clf, input_filenames):
+                 pose_chosen, WORKING_DIR, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, PLAYBACK_SPEED, clf, input_filenames):
         print('GENERATE VIDEOS SNIPPETS FOR INTERPRETATION')
         self.root_path = ROOT_PATH
         self.data_directories = DATA_DIRECTORIES
@@ -46,7 +46,7 @@ class Creator:
         self.avg_frame_rate = []
         self.shortvid_dir = []
         self.min_frames = []
-        self.number_examples = []
+        self.number_examples = NUMBER_EXAMPLES
         self.out_fps = []
         self.file_j_processed = []
  
@@ -117,12 +117,12 @@ class Creator:
             pass
         self.shortvid_dir = str.join('', (self.root_path, self.file_directory, '/mp4s', '/', csvname))
         print('Created {} as your behavioral snippets directory.'.format(self.shortvid_dir, self.vid_file))
-        self.min_frames = round(float(min_time) * 0.001 * float(self.framerate))  
+        self.min_frames = round(float(MIN_TIME) * 0.001 * float(self.framerate))  
         print('Entered {} ms as minimum duration per bout, '
-              'which is equivalent to {} frames.'.format(min_time, self.min_frames))
+              'which is equivalent to {} frames.'.format(MIN_TIME, self.min_frames))
         print('Your will obtain a maximum of {} non-repeated output examples per group.'.format(self.number_examples))
-        self.out_fps = int(float(playback_speed) * float(self.framerate))
-        print('Playback at {} x speed (rounded to {} FPS).'.format(playback_speed, self.out_fps))
+        self.out_fps = int(float(PLAYBACK_SPEED) * float(self.framerate))
+        print('Playback at {} x speed (rounded to {} FPS).'.format(PLAYBACK_SPEED, self.out_fps))
         
     def frame_extraction(self):
         print('Extracting frames from the video... ')
