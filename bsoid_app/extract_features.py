@@ -29,17 +29,16 @@ class Extract:
         self.scaled_features = []
         self.sampled_features = []
         self.sampled_embeddings = []
-        fraction = FRACTION
 
     def subsample(self):
         data_size = 0
         for n in range(len(self.processed_input_data)):
             data_size += len(range(round(self.framerate / 10), self.processed_input_data[n].shape[0],
                                    round(self.framerate / 10)))
-        if fraction == 1.0:
+        if FRACTION == 1.0:
             self.train_size = data_size
         else:
-            self.train_size = int(data_size * fraction)
+            self.train_size = int(data_size * FRACTION)
         print('You have opted to train on a cumulative of {} minutes total. '
                     'If this does not sound right, the FRAMERATE might be wrong.'.format(self.train_size / 600))
 
