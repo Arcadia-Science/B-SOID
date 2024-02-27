@@ -28,6 +28,10 @@ try:
     MAX_CLUSTER_RANGE = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
     AUTOSAVE = get_env_variable('AUTOSAVE_BSOID', 'Yes')
     POSE_LIST = get_env_variable('POSE_LIST_BSOID')
+    MIN_TIME = get_env_variable('MIN_TIME','200')
+    NUMBER_EXAMPLES = get_env_variable('NUMBER_EXAMPLES','5')
+    PLAYBACK_SPEED = get_env_variable('PLAYBACK_SPEED','0.75')
+
 except ValueError as e:
     print(e)
     exit(1)  # Exit if any required variable is missing or if a conversion to float fails
@@ -68,7 +72,7 @@ learning_protocol.main()
     = load_data(WORKING_DIR, PREFIX)
 [_, _, _, clf, _, _] = load_classifier(WORKING_DIR, PREFIX)
 creator = video_creator.Creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
-                                WORKING_DIR, PREFIX, FRAMERATE, clf, input_filenames)
+                                WORKING_DIR, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, PLAYBACK_SPEED, clf, input_filenames)
 creator.main()
 
 [ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
