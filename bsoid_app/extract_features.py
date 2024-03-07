@@ -24,6 +24,7 @@ class Extract:
         self.prefix = PREFIX
         self.processed_input_data = processed_input_data
         self.framerate = FRAMERATE
+        self.fraction = FRACTION
         self.train_size = []
         self.features = []
         self.scaled_features = []
@@ -35,10 +36,10 @@ class Extract:
         for n in range(len(self.processed_input_data)):
             data_size += len(range(round(self.framerate / 10), self.processed_input_data[n].shape[0],
                                    round(self.framerate / 10)))
-        if FRACTION == 1.0:
+        if self.fraction == 1.0:
             self.train_size = data_size
         else:
-            self.train_size = int(data_size * FRACTION)
+            self.train_size = int(data_size * self.fraction)
         print('You have opted to train on a cumulative of {} minutes total. '
                     'If this does not sound right, the FRAMERATE might be wrong.'.format(self.train_size / 600))
 
