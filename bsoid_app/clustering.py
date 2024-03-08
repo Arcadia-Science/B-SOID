@@ -58,7 +58,7 @@ class Cluster:
         plt1.suptitle('HDBSCAN assignment')
         col1, col2 = st.beta_columns([2, 2])
         col1.pyplot(fig1)
-        fig1.savefig(os.path.join(working_dir, 'hdbscan_assignment.png'), dpi=300, bbox_inches='tight')
+        fig1.savefig(os.path.join(self.working_dir, 'hdbscan_assignment.png'), dpi=300, bbox_inches='tight')
 
 
     def save(self):
