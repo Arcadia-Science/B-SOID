@@ -57,15 +57,15 @@ class Protocol:
         col1, col2 = st.beta_columns([2, 2])
         col1.pyplot(fig[0])  
         col2.pyplot(fig[1])
-        fig[0].savefig(os.path.join(working_dir, 'confusion_matrix_non_normalized.png'), dpi=300, bbox_inches='tight')
-        fig[1].savefig(os.path.join(working_dir, 'confusion_matrix_normalized.png'), dpi=300, bbox_inches='tight')
+        fig[0].savefig(os.path.join(self.working_dir, 'confusion_matrix_non_normalized.png'), dpi=300, bbox_inches='tight')
+        fig[1].savefig(os.path.join(self.working_dir, 'confusion_matrix_normalized.png'), dpi=300, bbox_inches='tight')
         print('Tip: To improve confusion matrix, either increase minimum cluster size, or include more data')
                 
     def show_crossval_score(self):
         fig, plt = visuals.plot_accuracy(self.validate_score)
         col1, col2 = st.beta_columns([2, 2])
         col1.pyplot(fig)
-        fig.savefig(os.path.join(working_dir, 'cross_val_accuracy.png'), dpi=300, bbox_inches='tight')
+        fig.savefig(os.path.join(self.working_dir, 'cross_val_accuracy.png'), dpi=300, bbox_inches='tight')
         print('Tip: To improve cross-validated accuracy, either increase minimum cluster size, or include more data')
                 
     def main(self):
