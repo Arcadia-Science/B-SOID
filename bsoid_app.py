@@ -37,15 +37,6 @@ except ValueError as e:
     print(e)
     exit(1)  # Exit if any required variable is missing or if a conversion to float fails
 
-st.set_page_config(page_title='B-SOiD v2.0', page_icon="🐁",
-                   layout='wide', initial_sidebar_state='auto')
-local_css("bsoid_app/bsoid_utilities/style.css")
-title = "<div> <span class='bold'><span class='h1'>B-SOID</span></span> " \
-        "   <span class='h2'>--version 2.0 🐁</span> </div>"
-st.markdown(title, unsafe_allow_html=True)
-st.text('')
-
-
 processor = data_preprocess.Preprocess(WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTYPE, ROOT_PATH, FRAMERATE, DATA_DIRECTORIES, POSE_LIST, VALUE)
 processor.compile_data()
 
@@ -72,15 +63,13 @@ learning_protocol.main()
 [ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
     = load_data(WORKING_DIR, PREFIX)
 [_, _, _, clf, _, _] = load_classifier(WORKING_DIR, PREFIX)
-creator = video_creator.Creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
-                                WORKING_DIR, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, PLAYBACK_SPEED, clf, input_filenames)
-creator.main()
 
-[ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
-    = load_data(WORKING_DIR, PREFIX)
-[_, _, _, clf, _, predictions] = load_classifier(WORKING_DIR, PREFIX)
-predictor = predict.Prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
-                               PREFIX, FRAMERATE, pose_chosen, predictions, clf)
-predictor.main()
-
-streamlit_run('./bsoid_app/bsoid_analysis')
+for directory in DATA_DIRECTORIES:
+    full_directory_path = os.path.join(ROOT_PATH, directory)
+    # Create a new instance of Creator for the current directory
+    creator = video_creator.Creator(
+        ROOT_PATH, WORKING_DIR, [full_directory_path], processed_input_data, pose_chosen,
+        full_directory_path, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, 
+        PLAYBACK_SPEED, clf, input_filenames,FTYPE)
+    
+    creator.main()
