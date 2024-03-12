@@ -28,10 +28,10 @@ try:
     MAX_CLUSTER_RANGE = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
     AUTOSAVE = get_env_variable('AUTOSAVE_BSOID', 'Yes')
     POSE_LIST = get_env_variable('POSE_LIST_BSOID')
-    MIN_TIME = get_env_variable('MIN_TIME','200')
-    NUMBER_EXAMPLES = get_env_variable('NUMBER_EXAMPLES', '5')
-    PLAYBACK_SPEED = get_env_variable('PLAYBACK_SPEED', '0.75')
-    FRACTION = float(get_env_variable('FRACTION', '1'))
+    MIN_TIME = get_env_variable('MIN_TIME_BSOID','200')
+    NUMBER_EXAMPLES = get_env_variable('NUMBER_EXAMPLES_BSOID', '5')
+    PLAYBACK_SPEED = get_env_variable('PLAYBACK_SPEED_BSOID', '0.75')
+    FRACTION = float(get_env_variable('FRACTION_BSOID', '1'))
 
 except ValueError as e:
     print(e)
