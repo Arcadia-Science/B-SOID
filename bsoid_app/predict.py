@@ -167,8 +167,7 @@ class Prediction:
                     str.join('', (self.new_root_path, self.folder[i], '/BSOID'))))
         with open(os.path.join(self.working_dir, str.join('', (self.new_prefix, '_predictions.sav'))), 'wb') as f:
             joblib.dump([self.folders, self.folder, self.filenames, self.new_data, self.new_predictions], f)
-        print('**_CHECK POINT_**: Done predicting old/new files. Move on to '
-                        '__Load up analysis app (please close current browser when new browser pops up)__.')
+        print('Done predicting files.')
 
     def main(self):
         self.setup()
