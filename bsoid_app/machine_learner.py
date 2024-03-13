@@ -5,7 +5,7 @@ import randfacts
 import streamlit as st
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
-                
+
 from bsoid_app.bsoid_utilities import visuals
 from bsoid_app.bsoid_utilities.load_workspace import load_classifier
 from streamlit import caching
