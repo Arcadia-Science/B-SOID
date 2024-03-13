@@ -273,7 +273,7 @@ class Creator:
                 )
             except IndexError:
                 pass
-        
+
     def main(self):
         self.setup()
         self.create_videos()
