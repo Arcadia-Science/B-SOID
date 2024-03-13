@@ -73,7 +73,7 @@ class Protocol:
             [self.x_test, self.y_test, self.validate_clf, self.clf, self.validate_score, self.predictions] = \
                 load_classifier(self.working_dir, self.prefix)
             print('Done training random forest classifier '
-                        'mapping **{}** features to **{}** assignments. Move on to '   
+                        'mapping **{}** features to **{}** assignments. Move on to '
                         'Generate video snippets for interpretation.'.format(self.features.shape[0],
                                                                                  self.predictions.shape[0]))
             caching.clear_cache()
