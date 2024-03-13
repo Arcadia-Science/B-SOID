@@ -55,7 +55,7 @@ class Protocol:
     def show_confusion_matrix(self):
         fig = visuals.plot_confusion(self.validate_clf, self.x_test, self.y_test)
         col1, col2 = st.beta_columns([2, 2])
-        col1.pyplot(fig[0])  
+        col1.pyplot(fig[0])
         col2.pyplot(fig[1])
         fig[0].savefig(os.path.join(self.working_dir, 'confusion_matrix_non_normalized.png'), dpi=300, bbox_inches='tight')
         fig[1].savefig(os.path.join(self.working_dir, 'confusion_matrix_normalized.png'), dpi=300, bbox_inches='tight')
