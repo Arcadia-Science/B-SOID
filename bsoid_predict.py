@@ -32,5 +32,3 @@ except ValueError as e:
 predictor = predict.Prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
                                PREFIX, FRAMERATE, pose_chosen, predictions, FTYPE, clf)
 predictor.main()
-
-#streamlit_run('./bsoid_app/bsoid_analysis')
