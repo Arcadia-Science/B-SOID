@@ -51,7 +51,7 @@ class Protocol:
             except AttributeError:
                 print('Error: Sometimes this takes a bit to update, recheck identify clusters (previous step) '
                          'and rerun this in 30 seconds.')
-    
+
     def show_confusion_matrix(self):
         fig = visuals.plot_confusion(self.validate_clf, self.x_test, self.y_test)
         col1, col2 = st.beta_columns([2, 2])
