@@ -1,3 +1,7 @@
+### Important note: 
+#### This version of B-SOiD has been modified to enable running through the CLI. It has only been tested using CSV files from DeepLabCut with corresponding .mp4 videos. We have tried to enable the other file types used in the original code, but cannot guarantee they will work smoothly. The usage section has been modified to reflect the CLI usage. We have not included functionality for launching bsoid_analysis.py (the final step in the original pipeline).
+<br>
+
 ![B-SOiD flowchart](demo/appv2_files/bsoid_version2.png)
 [![DOI](https://zenodo.org/badge/196603884.svg)](https://zenodo.org/badge/latestdoi/196603884)
 
@@ -32,7 +36,7 @@ Git clone the web URL (example below) or download ZIP.
 
 Change your current working directory to the location where you want the cloned directory to be made.
 ```bash
-git clone https://github.com/YttriLab/B-SOID.git
+git clone https://github.com/Arcadia-Science/B-SOID.git
 ```
 
 ### Usage
@@ -58,10 +62,23 @@ conda activate bsoid_v2
 
 You should now see (bsoid_v2) $yourusername@yourmachine ~ %
 
-#### Step 2: Run the app!
+#### Step 2: Run the pipeline through the CLI!
+##### See run_streamlit_cli.py and run_streamlit_cli_predict.py for explanations of the environmental variables that need to be set here and default settings where they exist.
+
+Creating a new model:
 ```
-streamlit run bsoid_app.py
+SOFTWARE_BSOID='DeepLabCut' FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120 WORKING_DIR_BSOID='/Users/Desktop/training/output' PREFIX_BSOID='controltry' VALUE_BSOID=4.0 DATA_DIR_BSOID='/1_1,/1_2,/2_1,/2_2' AUTOSAVE_BSOID='Yes' POSE_LIST_BSOID='R_rear,L_rear' python run_streamlit_cli.py
 ```
+<br>
+
+Predicting files using a model:
+
+Your environmental variables should be set to match the directories that contain the trained model. Outputs from prediction will be within those directories in a folder named BSOID.
+
+```
+FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120 WORKING_DIR_BSOID='/Users/Desktop/training/output' PREFIX_BSOID='controltry' DATA_DIR_BSOID='/1_1,/1_2,/2_1,/2_2' python run_streamlit_cli_predict.py
+```
+<br>
 
 #### Resources
 We have provided our 6 body part [DeepLabCut model](yttri-bottomup_dlc-model/dlc-models/). 
