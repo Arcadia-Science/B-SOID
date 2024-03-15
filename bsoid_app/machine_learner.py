@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
         
         
 class Protocol:
-        
+
     def __init__(self, WORKING_DIR, PREFIX, features, sampled_features, assignments):
         print('CREATE A MODEL')
         self.working_dir = WORKING_DIR
