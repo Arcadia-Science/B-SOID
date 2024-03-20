@@ -68,7 +68,7 @@ for directory in DATA_DIRECTORIES:
     full_directory_path = os.path.join(ROOT_PATH, directory)
     # Create a new instance of Creator for the current directory
     creator = video_creator.Creator(
-        ROOT_PATH, WORKING_DIR, [full_directory_path], processed_input_data, pose_chosen,
+        ROOT_PATH, [full_directory_path], processed_input_data, pose_chosen,
         full_directory_path, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, 
         PLAYBACK_SPEED, clf, input_filenames,FTYPE)
     
