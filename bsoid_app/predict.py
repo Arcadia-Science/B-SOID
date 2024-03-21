@@ -45,8 +45,6 @@ class Prediction:
 
     def setup(self):
         self.new_root_path = self.root_path
-        self.filetype = [s for i, s in enumerate(['csv', 'h5', 'json'])
-                         if s in self.input_filenames[0].partition('.')[-1]][0]
         self.new_directories = self.data_directories
         self.new_framerate = self.framerate
         self.new_prefix = self.prefix
