@@ -90,7 +90,7 @@ SOFTWARE_BSOID='DeepLabCut' FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/tr
 
 ##### Predicting files using a model:
 
-Your environmental variables should be set to match the directories that contain the trained model. Outputs from prediction will be within those directories in a folder named BSOID.
+Your environmental variables should be set to match the directories that contain the trained model. Only WORKING_DIR_BSOID, PREFIX_BSOID, FTYPE_BSOID, ROOT_PATH_BSOID, FRAMERATE_BSOID, and DATA_DIR_BSOID need to be defined for prediction. Outputs from prediction will be within those directories in a folder named BSOID.
 
 ```
 FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120 WORKING_DIR_BSOID='/Users/Desktop/training/output' PREFIX_BSOID='controltry' DATA_DIR_BSOID='/1_1,/1_2,/2_1,/2_2' python run_streamlit_cli_predict.py
