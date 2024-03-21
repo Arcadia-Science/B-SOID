@@ -73,3 +73,7 @@ for directory in DATA_DIRECTORIES:
         PLAYBACK_SPEED, clf, input_filenames,FTYPE)
     
     creator.main()
+
+signal_file_path = './app_done.txt'
+with open(signal_file_path, 'w') as f:
+    f.write('done')
