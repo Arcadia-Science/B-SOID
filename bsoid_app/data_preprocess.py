@@ -19,7 +19,7 @@ class Preprocess:
         self.root_path = ROOT_PATH
         self.framerate = FRAMERATE
         self.data_directories = DATA_DIRECTORIES.split(',')
-        self.pose_list = POSE_LIST
+        self.pose_list = [s.strip() for s in POSE_LIST.split(",") if s.strip()]
         self.working_dir = WORKING_DIR
         self.prefix = PREFIX
         self.pose_chosen = []

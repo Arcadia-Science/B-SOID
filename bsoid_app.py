@@ -28,24 +28,20 @@ try:
     MAX_CLUSTER_RANGE = float(get_env_variable('MAX_CLUSTER_BSOID', '1'))
     AUTOSAVE = get_env_variable('AUTOSAVE_BSOID', 'Yes')
     POSE_LIST = get_env_variable('POSE_LIST_BSOID')
+    MIN_TIME = int(get_env_variable('MIN_TIME_BSOID','200'))
+    NUMBER_EXAMPLES = int(get_env_variable('NUMBER_EXAMPLES_BSOID', '5'))
+    PLAYBACK_SPEED = float(get_env_variable('PLAYBACK_SPEED_BSOID', '0.75'))
+    FRACTION = float(get_env_variable('FRACTION_BSOID', '1'))
+
 except ValueError as e:
     print(e)
     exit(1)  # Exit if any required variable is missing or if a conversion to float fails
-
-st.set_page_config(page_title='B-SOiD v2.0', page_icon="🐁",
-                   layout='wide', initial_sidebar_state='auto')
-local_css("bsoid_app/bsoid_utilities/style.css")
-title = "<div> <span class='bold'><span class='h1'>B-SOID</span></span> " \
-        "   <span class='h2'>--version 2.0 🐁</span> </div>"
-st.markdown(title, unsafe_allow_html=True)
-st.text('')
-
 
 processor = data_preprocess.Preprocess(WORKING_DIR, PREFIX, SOFTWARE_CHOICE, FTYPE, ROOT_PATH, FRAMERATE, DATA_DIRECTORIES, POSE_LIST, VALUE)
 processor.compile_data()
 
 [_, _, FRAMERATE, _, _, _, processed_input_data, _] = load_data(WORKING_DIR, PREFIX)
-extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE)
+extractor = extract_features.Extract(WORKING_DIR, PREFIX, processed_input_data, FRAMERATE, FRACTION)
 extractor.main()
 
 [_, sampled_embeddings] = load_embeddings(WORKING_DIR, PREFIX)
@@ -61,21 +57,23 @@ exporter.save_csv()
 [features, _] = load_feats(WORKING_DIR, PREFIX)
 [sampled_features, _] = load_embeddings(WORKING_DIR, PREFIX)
 [_, assignments, _, _] = load_clusters(WORKING_DIR, PREFIX)
-learning_protocol = machine_learner.protocol(WORKING_DIR, PREFIX, features, sampled_features, assignments)
+learning_protocol = machine_learner.Protocol(WORKING_DIR, PREFIX, features, sampled_features, assignments)
 learning_protocol.main()
 
 [ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
     = load_data(WORKING_DIR, PREFIX)
 [_, _, _, clf, _, _] = load_classifier(WORKING_DIR, PREFIX)
-creator = video_creator.creator(ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
-                                WORKING_DIR, PREFIX, FRAMERATE, clf, input_filenames)
-creator.main()
 
-[ROOT_PATH, DATA_DIRECTORIES, FRAMERATE, pose_chosen, input_filenames, _, processed_input_data, _] \
-    = load_data(WORKING_DIR, PREFIX)
-[_, _, _, clf, _, predictions] = load_classifier(WORKING_DIR, PREFIX)
-predictor = predict.prediction(ROOT_PATH, DATA_DIRECTORIES, input_filenames, processed_input_data, WORKING_DIR,
-                               PREFIX, FRAMERATE, pose_chosen, predictions, clf)
-predictor.main()
+for directory in DATA_DIRECTORIES:
+    full_directory_path = os.path.join(ROOT_PATH, directory)
+    # Create a new instance of Creator for the current directory
+    creator = video_creator.Creator(
+        ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
+        full_directory_path, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, 
+        PLAYBACK_SPEED, clf, input_filenames,FTYPE)
+    
+    creator.main()
 
-streamlit_run('./bsoid_app/bsoid_analysis')
+signal_file_path = './app_done.txt'
+with open(signal_file_path, 'w') as f:
+    f.write('done')
