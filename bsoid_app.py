@@ -69,8 +69,8 @@ for directory in DATA_DIRECTORIES:
     # Create a new instance of Creator for the current directory
     creator = video_creator.Creator(
         ROOT_PATH, DATA_DIRECTORIES, processed_input_data, pose_chosen,
-        full_directory_path, PREFIX, FRAMERATE, MIN_TIME, NUMBER_EXAMPLES, 
-        PLAYBACK_SPEED, clf, input_filenames,FTYPE)
+        full_directory_path, PREFIX, FRAMERATE, MIN_TIME, FTYPE, NUMBER_EXAMPLES, 
+        PLAYBACK_SPEED, clf, input_filenames)
     
     creator.main()
 
