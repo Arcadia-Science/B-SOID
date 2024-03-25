@@ -177,7 +177,7 @@ class Extract:
             st.markdown('CHECK POINT: Done non-linear transformation of {} instances '
                         'from {} D into {} D. Move on to Identify and '
                         'tweak number of clusters'.format(*self.sampled_features.shape, self.sampled_embeddings.shape[1]))
-            caching.clear_cache()
+            #caching.clear_cache()
             self.subsample()
             self.compute()
         except FileNotFoundError:
