@@ -30,7 +30,7 @@ try:
     POSE_LIST = get_env_variable('POSE_LIST_BSOID')
     MIN_TIME = int(get_env_variable('MIN_TIME_BSOID','200'))
     NUMBER_EXAMPLES = int(get_env_variable('NUMBER_EXAMPLES_BSOID', '5'))
-    PLAYBACK_SPEED = float(get_env_variable('PLAYBACK_SPEED_BSOID', '0.75'))
+    PLAYBACK_SPEED = get_env_variable('PLAYBACK_SPEED_BSOID', '0.75')
     FRACTION = float(get_env_variable('FRACTION_BSOID', '1'))
 
 except ValueError as e:
