@@ -79,7 +79,7 @@ You should now see (bsoid_v2) $yourusername@yourmachine ~ %
 `AUTOSAVE_BSOID`: Whether or not you want to autosave clustering as you go. Should be 'Yes' or 'No'. Default is 'Yes'.<br>
 `POSE_LIST_BSOID`: List of poses to include in analysis, for example, 'R_rear,L_rear'.<br>
 `MIN_TIME`: Minimum time for bout in ms. Default is 200.<br>
-`NUMBER_EXAMPLES`: Number of non-repeated examples for video snippets. Default is 5.<br>
+`NUMBER_EXAMPLES`: Number of non-repeated examples for video snippets. Default is 5. Decreasing this number will speed up runtime.<br>
 `PLAYBACK_SPEED`: Playback speed for video snippets. Default is 0.75X.<br>
 `FRACTION`: Training input fraction (do not change this value if you wish to generate the side-by-side video seen on B-SOiD GitHub page). Default is 1, minimum is 0.1, maximum is 1.<br>
 
