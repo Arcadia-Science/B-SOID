@@ -1,4 +1,4 @@
-### Important note: 
+### Important note:
 #### This version of B-SOiD has been modified to enable running through the CLI. It has only been tested using CSV files from DeepLabCut with corresponding .mp4 videos. We have tried to enable the other file types used in the original code, but cannot guarantee they will work smoothly. The usage section has been modified to reflect the CLI usage. We have not included functionality for launching bsoid_analysis.py (the final step in the original pipeline).
 <br>
 
@@ -10,29 +10,33 @@
 ![](demo/appv2_files/bsoid_exercise.gif)
 
 ### Why B-SOiD ("B-side")?
-[DeepLabCut](https://github.com/AlexEMG/DeepLabCut) <sup>1,2,3</sup>, 
-[SLEAP](https://github.com/murthylab/sleap) <sup>4</sup>, and 
-[OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) <sup>5</sup> 
-have revolutionized the way behavioral scientists analyze data. 
-These algorithm utilizes recent advances in computer vision and deep learning to automatically estimate 3D-poses. 
-Interpreting the positions of an animal can be useful in studying behavior; 
-however, it does not encompass the whole dynamic range of naturalistic behaviors. 
+[DeepLabCut](https://github.com/AlexEMG/DeepLabCut) <sup>1,2,3</sup>,
+[SLEAP](https://github.com/murthylab/sleap) <sup>4</sup>, and
+[OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose) <sup>5</sup>
+have revolutionized the way behavioral scientists analyze data.
+These algorithm utilizes recent advances in computer vision and deep learning to automatically estimate 3D-poses.
+Interpreting the positions of an animal can be useful in studying behavior;
+however, it does not encompass the whole dynamic range of naturalistic behaviors.
 
-B-SOiD identifies behaviors using a unique pipeline where unsupervised learning meets supervised classification. 
-The unsupervised behavioral segmentation relies on non-linear dimensionality reduction <sup>6,7,9,10</sup>, 
+B-SOiD identifies behaviors using a unique pipeline where unsupervised learning meets supervised classification.
+The unsupervised behavioral segmentation relies on non-linear dimensionality reduction <sup>6,7,9,10</sup>,
 whereas the supervised classification is standard scikit-learn <sup>8</sup>.
 
 Behavioral segmentation of open field in DeepLabCut, or B-SOiD ("B-side"), as the name suggested,
- was first designed as a pipeline using pose estimation file from DeepLabCut as input. Now, it has extended to handle 
+ was first designed as a pipeline using pose estimation file from DeepLabCut as input. Now, it has extended to handle
 DeepLabCut (.h5, .csv), SLEAP (.h5), and OpenPose (.json) files.
 
 ### Installation
 
-#### Step 1: Install [Anaconda/Python3](https://www.anaconda.com/)
+#### Step 1: Install Conda/Mamba
 
-#### Step 2: Clone B-SOID repository with anaconda prompt
+This repository uses conda to manage the development software environment.
 
-Git clone the web URL (example below) or download ZIP. 
+You can find operating system-specific instructions for installing miniconda [here](https://docs.conda.io/projects/miniconda/en/latest/). After installing conda and [mamba](https://mamba.readthedocs.io/en/latest/), run the following command to create the pipeline run environment. This will createa a minimal virtual environment.
+
+#### Step 2: Clone B-SOID repository
+
+Git clone the web URL (example below) or download ZIP.
 
 Change your current working directory to the location where you want the cloned directory to be made.
 ```bash
@@ -45,18 +49,32 @@ git clone https://github.com/Arcadia-Science/B-SOID.git
 cd /path/to/B-SOID/
 ```
 
-For MacOS users
-```
+For MacOS users (note: you need an x86 archicture MacOS):
+```bash
 conda env create -n bsoid_v2 -f requirements.yaml (macOS)
 ```
 
-or for Windows users
+or for Windows users:
+```bash
+conda env create -n bsoid_v2 -f requirements_win.yaml (windows)
+```
 
-```
-conda env create -n bsoid_v2 -f requirements_win.yaml (windows) 
+or for Linux users (this was tested with Ubuntu version 22.2):
+
+Linux `ffmpeg` distribution on Conda doesn't work (it has missing libraries). Because of this, you need to install `ffmmpeg` separately from the Conda environment setup. First, let's do that:
+
+```bash
+sudo apt update && sudo apt upgrade
+sudo apt install ffmpeg # At this time, the most recent ffmpeg version is 4.2.2
 ```
 
+Then let's create the Conda environment:
+```bash
+conda env create -n bsoid_v2 -f requirements_ubuntu.yaml
 ```
+
+Once your setup is complete, activate the Conda environment:
+```bash
 conda activate bsoid_v2
 ```
 
@@ -99,19 +117,19 @@ FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120
 <br>
 
 #### Resources
-We have provided our 6 body part [DeepLabCut model](yttri-bottomup_dlc-model/dlc-models/). 
-We also included two example 5 minute clips 
+We have provided our 6 body part [DeepLabCut model](yttri-bottomup_dlc-model/dlc-models/).
+We also included two example 5 minute clips
 ([labeled_clip1](yttri-bottomup_dlc-model/examples/raw_clip1DLC_resnet50_OpenFieldHighResApr8shuffle1_1030000_labeled.mp4),
-[labeled_clip2](yttri-bottomup_dlc-model/examples/raw_clip2DLC_resnet50_OpenFieldHighResApr8shuffle1_1030000_labeled.mp4)) 
+[labeled_clip2](yttri-bottomup_dlc-model/examples/raw_clip2DLC_resnet50_OpenFieldHighResApr8shuffle1_1030000_labeled.mp4))
 as proxy for how well we trained our model.
 The raw video
 ([raw_clip1](yttri-bottomup_dlc-model/examples/raw_clip1.mp4),
-[raw_clip2](yttri-bottomup_dlc-model/examples/raw_clip2.mp4)) 
+[raw_clip2](yttri-bottomup_dlc-model/examples/raw_clip2.mp4))
 and the corresponding [h5/pickle/csv](yttri-bottomup_dlc-model/examples/) files are included as well.
 
 
 
-#### Archives 
+#### Archives
 * [matlab](docs/matlab_tutorial.md)
 * [python-tsne](docs/python3_tutorial.md)
 * [python-umap](docs/bsoid_umap_tutorial.md)
@@ -119,20 +137,20 @@ and the corresponding [h5/pickle/csv](yttri-bottomup_dlc-model/examples/) files 
 
 ### Contributing
 
-Pull requests are welcome. For recommended changes that you would like to see, open an issue. 
-Join our [slack group](https://join.slack.com/t/b-soid/shared_invite/zt-dksalgqu-Eix8ZVYYFVVFULUhMJfvlw) 
+Pull requests are welcome. For recommended changes that you would like to see, open an issue.
+Join our [slack group](https://join.slack.com/t/b-soid/shared_invite/zt-dksalgqu-Eix8ZVYYFVVFULUhMJfvlw)
 for more instantaneous feedback.
 
-There are many exciting avenues to explore based on this work. 
+There are many exciting avenues to explore based on this work.
 Please do not hesitate to contact us for collaborations.
 
 ### License
 
-This software package provided without warranty of any kind and is licensed under the [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/). 
-If you use our algorithm and/or model/data, please cite us! Preprint/peer-review will be announced in the following section. 
+This software package provided without warranty of any kind and is licensed under the [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/).
+If you use our algorithm and/or model/data, please cite us! Preprint/peer-review will be announced in the following section.
 
 ### News
-September 2019: First B-SOiD preprint on [bioRxiv](https://www.biorxiv.org/content/10.1101/770271v1) 
+September 2019: First B-SOiD preprint on [bioRxiv](https://www.biorxiv.org/content/10.1101/770271v1)
 
 March 2020: Updated version of our preprint on [bioRxiv](https://www.biorxiv.org/content/10.1101/770271v2)
 
@@ -145,7 +163,7 @@ March 2020: Updated version of our preprint on [bioRxiv](https://www.biorxiv.org
 
 4. [Pereira, Talmo D., Nathaniel Tabris, Junyu Li, Shruthi Ravindranath, Eleni S. Papadoyannis, Z. Yan Wang, David M. Turner, et al. 2020. “SLEAP: Multi-Animal Pose Tracking.” bioRxiv.](https://doi.org/10.1101/2020.08.31.276246)
 
-5. [Cao Z, Hidalgo Martinez G, Simon T, Wei SE, Sheikh YA. OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields. IEEE Trans Pattern Anal Mach Intell. 2019 Jul 17. Epub ahead of print. PMID: 31331883.](https://doi.org/10.1109/TPAMI.2019.2929257). 
+5. [Cao Z, Hidalgo Martinez G, Simon T, Wei SE, Sheikh YA. OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields. IEEE Trans Pattern Anal Mach Intell. 2019 Jul 17. Epub ahead of print. PMID: 31331883.](https://doi.org/10.1109/TPAMI.2019.2929257).
 
 6. [McInnes, L., Healy, J., & Melville, J. (2018). UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction.](http://arxiv.org/abs/1802.03426)
 
@@ -156,5 +174,3 @@ March 2020: Updated version of our preprint on [bioRxiv](https://www.biorxiv.org
 9. [L.J.P. van der Maaten. Accelerating t-SNE using Tree-Based Algorithms. Journal of Machine Learning Research 15(Oct):3221-3245, 2014.](https://lvdmaaten.github.io/publications/papers/JMLR_2014.pdf)
 
 10. [Chen M. EM Algorithm for Gaussian Mixture Model (EM GMM). MATLAB Central File Exchange. Retrieved July 15, 2019.](https://www.mathworks.com/matlabcentral/fileexchange/26184-em-algorithm-for-gaussian-mixture-model-em-gmm)
-
-
