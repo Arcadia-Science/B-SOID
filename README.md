@@ -63,7 +63,7 @@ conda activate bsoid_v2
 You should now see (bsoid_v2) $yourusername@yourmachine ~ %
 
 #### Step 2: Run the pipeline through the CLI!
-##### Note: If running on an AWS instance, you will need to add a rule to your security group with Type: “Custom TCP Rule”, Port Range:8501, and Source: MyIP. Port 8501 is the custom port used by Streamlit.
+##### Note: If you are running on an AWS instance and would like to see outputs from the web application, you will need to add an inbound rule to your security group with Type: “Custom TCP Rule”, Port Range:8501, and Source: MyIP. Seeing the web application can be useful for debugging since errors sometimes only appear there. Port 8501 is the custom port used by Streamlit. However, users should be careful to make sure that this is the right port when they run the app; for example, if you incorrectly shutdown so the process is running the background and you run the streamlit app again, it will select the next port.
 ##### Environment variables that need to be specified to run the CLI command:
 
 `WORKING_DIR_BSOID`: Path to where you want outputs to go.<br>
