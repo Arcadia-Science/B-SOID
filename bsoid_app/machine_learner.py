@@ -76,7 +76,7 @@ class Protocol:
                         'mapping **{}** features to **{}** assignments. Move on to '
                         'Generate video snippets for interpretation.'.format(self.features.shape[0],
                                                                                  self.predictions.shape[0]))
-            #caching.clear_cache()
+            caching.clear_cache()
             self.randomforest()
             self.show_confusion_matrix()
             self.show_crossval_score()
