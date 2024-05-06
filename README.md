@@ -63,6 +63,7 @@ conda activate bsoid_v2
 You should now see (bsoid_v2) $yourusername@yourmachine ~ %
 
 #### Step 2: Run the pipeline through the CLI!
+##### Note: If you are running on an AWS instance and would like to see outputs from the web application, you will need to add an inbound rule to your security group with Type: “Custom TCP Rule”, Port Range:8501, and Source: MyIP. Seeing the web application can be useful for debugging since errors sometimes only appear there. Port 8501 is the custom port used by Streamlit. However, users should be careful to make sure that this is the right port when they run the app; for example, if you incorrectly shutdown so the process is running the background and you run the streamlit app again, it will select the next port.
 ##### Environment variables that need to be specified to run the CLI command:
 
 `WORKING_DIR_BSOID`: Path to where you want outputs to go.<br>
@@ -77,14 +78,14 @@ You should now see (bsoid_v2) $yourusername@yourmachine ~ %
 `MAX_CLUSTER_BSOID`: default='1', Maximum cluster size, will represent a % and impacts number of clusters.<br>
 `AUTOSAVE_BSOID`: Whether or not you want to autosave clustering as you go. Should be 'Yes' or 'No'. Default is 'Yes'.<br>
 `POSE_LIST_BSOID`: List of poses to include in analysis, for example, 'R_rear,L_rear'.<br>
-`MIN_TIME`: Minimum time for bout in ms. Default is 200.<br>
-`NUMBER_EXAMPLES`: Number of non-repeated examples for video snippets. Default is 5.<br>
-`PLAYBACK_SPEED`: Playback speed for video snippets. Default is 0.75X.<br>
-`FRACTION`: Training input fraction (do not change this value if you wish to generate the side-by-side video seen on B-SOiD GitHub page). Default is 1, minimum is 0.1, maximum is 1.<br>
+`MIN_TIME_BSOID`: Minimum time for bout in ms. Default is 200.<br>
+`NUMBER_EXAMPLES_BSOID`: Number of non-repeated examples for video snippets. Default is 5. Decreasing this number will speed up runtime because fewer example gifs will be generated per cluster.<br>
+`PLAYBACK_SPEED_BSOID`: Playback speed for video snippets. Default is 0.75X.<br>
+`FRACTION_BSOID`: Training input fraction (do not change this value if you wish to generate the side-by-side video seen on B-SOiD GitHub page). Default is 1, minimum is 0.1, maximum is 1.<br>
 
 ##### Creating a new model:
 ```
-SOFTWARE_BSOID='DeepLabCut' FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120 WORKING_DIR_BSOID='/Users/Desktop/training/output' PREFIX_BSOID='controltry' VALUE_BSOID=4.0 DATA_DIR_BSOID='/1_1,/1_2,/2_1,/2_2' AUTOSAVE_BSOID='Yes' POSE_LIST_BSOID='R_rear,L_rear' python run_streamlit_cli.py
+SOFTWARE_BSOID='DeepLabCut' FTYPE_BSOID='csv' ROOT_PATH_BSOID='/Users/Desktop/training/' FRAMERATE_BSOID=120 WORKING_DIR_BSOID='/Users/Desktop/training/output' PREFIX_BSOID='controltry' NUMBER_EXAMPLES_BSOID=1 VALUE_BSOID=4.0 DATA_DIR_BSOID='/1_1,/1_2,/2_1,/2_2' AUTOSAVE_BSOID='Yes' POSE_LIST_BSOID='R_rear,L_rear' python run_streamlit_cli.py
 ```
 <br>
 
