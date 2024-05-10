@@ -68,10 +68,13 @@ sudo apt update && sudo apt upgrade
 sudo apt install ffmpeg # At this time, the most recent ffmpeg version is 4.2.2
 ```
 
-Then let's create the Conda environment:
+Then let's create the Conda environment. Sadly Conda/Mamba is not able to resolve the dependencies when the channel_priority setting is set to `strict`. So, we need to change that up with `conda config --set channel_priority flexible`:
+
 ```bash
-conda env create -n bsoid_v2 -f requirements_ubuntu.yaml
+conda env create -n bsoid_v2 -f requirements_linux.yaml
 ```
+
+Once you setup, your conda environment, do not forget to change your `channel_priority` settings: `conda config --set channel_priority strict`.
 
 Once your setup is complete, activate the Conda environment:
 ```bash
