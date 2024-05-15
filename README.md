@@ -32,7 +32,7 @@ DeepLabCut (.h5, .csv), SLEAP (.h5), and OpenPose (.json) files.
 
 This repository uses conda to manage the development software environment.
 
-You can find operating system-specific instructions for installing miniconda [here](https://docs.conda.io/projects/miniconda/en/latest/). After installing conda and [mamba](https://mamba.readthedocs.io/en/latest/), run the following command to create the pipeline run environment. This will createa a minimal virtual environment.
+You can find operating system-specific instructions for installing miniconda [here](https://docs.conda.io/projects/miniconda/en/latest/). After installing conda and [mamba](https://mamba.readthedocs.io/en/latest/), proceed with the next steps.
 
 #### Step 2: Clone B-SOID repository
 
@@ -49,7 +49,7 @@ git clone https://github.com/Arcadia-Science/B-SOID.git
 cd /path/to/B-SOID/
 ```
 
-For MacOS users (note: you need an x86 archicture MacOS):
+For MacOS users (note: you need a Mac with an Intel chip or use the Rosetta emulator on an Apple silicon based Macs):
 ```bash
 conda env create -n bsoid_v2 -f requirements.yaml (macOS)
 ```
@@ -61,20 +61,25 @@ conda env create -n bsoid_v2 -f requirements_win.yaml (windows)
 
 or for Linux users (this was tested with Ubuntu version 22.2):
 
-Linux `ffmpeg` distribution on Conda doesn't work (it has missing libraries). Because of this, you need to install `ffmmpeg` separately from the Conda environment setup. First, let's do that:
+Linux `ffmpeg` distribution on Conda doesn't work (it has missing libraries). Because of this, you need to install `ffmpeg` separately from the Conda environment setup. First, let's do that:
 
 ```bash
 sudo apt update && sudo apt upgrade
 sudo apt install ffmpeg # At this time, the most recent ffmpeg version is 4.2.2
 ```
 
-Then let's create the Conda environment. Sadly Conda/Mamba is not able to resolve the dependencies when the channel_priority setting is set to `strict`. So, we need to change that up with `conda config --set channel_priority flexible`:
+Then let's create the Conda environment. Sadly Conda/Mamba is not able to resolve the dependencies when the channel_priority setting is set to `strict`. So, we need to change that:
 
 ```bash
-conda env create -n bsoid_v2 -f requirements_linux.yaml
-```
+# Adjust the channel_priority setting
+conda config --set channel_priority flexible
 
-Once you setup, your conda environment, do not forget to change your `channel_priority` settings: `conda config --set channel_priority strict`.
+# Create the conda environment
+conda env create -n bsoid_v2 -f requirements_linux.yaml
+
+# Optionally update the channel_priority setting to be strict
+conda config --set channel_priority strict
+```
 
 Once your setup is complete, activate the Conda environment:
 ```bash
